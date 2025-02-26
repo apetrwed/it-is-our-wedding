@@ -193,27 +193,47 @@
 
     <script>
         // Function to validate the answer
+        function handleValidation(data) {
+            const loader = document.getElementById("loader");
+            const errorMessage = document.getElementById("error-message");
+            const contentContainer = document.getElementById("content-container");
+        
+            loader.style.display = "none";
+        
+            if (data.valid) {
+                // Answer is correct, show content
+                document.getElementById("validation-section").style.display = "none";
+                contentContainer.classList.remove("hidden");
+        
+                //  Load the wedding details into an iframe
+                loadWeddingDetails();
+            } else {
+                //  Answer is incorrect
+                errorMessage.textContent = "Incorrect. Please try again.";
+            }
+        
+            // Clean up the script tag
+            document.querySelectorAll('script[src*="action=validate"]').forEach(script => script.remove());
+        }
+
+        //  Optimized validation function using JSONP
         function validateAnswer() {
             const answer = document.getElementById("passcode").value.toLowerCase().trim();
             const errorMessage = document.getElementById("error-message");
             const contentContainer = document.getElementById("content-container");
             const loader = document.getElementById("loader");
-            
-            // Show loader
+        
             loader.style.display = "block";
             errorMessage.textContent = "";
-            
-            // The answer needs to be validated server-side via the Google App
+        
             if (answer) {
-                // Create URL with the answer
-                const appUrl = `https://script.google.com/macros/s/AKfycbwI3HzI_4vsviQKtPw0rlLNi1AuQyi3p88p-QWQFHd-KXc7Y-amD_pxNU-dGPJpdxRSdg/exec?action=validate&answer=${encodeURIComponent(answer)}`;
-                
-                // Use JSONP approach to avoid CORS issues
+                const appUrl = `https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=validate&answer=${encodeURIComponent(answer)}&callback=handleValidation`;
+        
                 const script = document.createElement('script');
-                script.src = `${appUrl}&callback=handleValidation`;
+                script.src = appUrl;
                 document.body.appendChild(script);
-                
-                // Set a timeout in case the script fails to load
+        
+                // Timeout handler
                 setTimeout(() => {
                     if (loader.style.display === "block") {
                         loader.style.display = "none";
@@ -224,55 +244,6 @@
                 loader.style.display = "none";
                 errorMessage.textContent = "Please enter an answer.";
             }
-            } else {
-                loader.style.display = "none";
-                errorMessage.textContent = "Please enter an answer.";
-            }
-        }
-        
-        // Function to load wedding details after validation
-        function loadWeddingDetails() {
-            const contentContainer = document.getElementById("content-container");
-            
-            // Create an iframe to load the wedding details
-            const iframe = document.createElement("iframe");
-            iframe.id = "wedding-frame";
-            iframe.scrolling = "no"; // Disable scrolling
-            iframe.setAttribute("allowfullscreen", "");
-            
-            // Create a container for the iframe
-            const iframeContainer = document.createElement("div");
-            iframeContainer.className = "iframe-container";
-            iframeContainer.appendChild(iframe);
-            
-            // Add the iframe to the content container
-            contentContainer.appendChild(iframeContainer);
-            
-            // Add an event listener to handle iframe resizing
-            window.addEventListener("message", function(event) {
-                if (event.data && event.data.height) {
-                    iframe.style.height = (event.data.height + 70) + "px";
-                    console.log("Iframe height updated to: " + iframe.style.height);
-                }
-            });
-            
-            // Set the iframe source - this will load the wedding details from Google App
-            // Using the existing Script URL - make sure this deployment URL is correct
-            iframe.src = "https://script.google.com/macros/s/AKfycbyxpWT_f2rWNnOEaO3dcUx9aUZeu8NRS1RynG5jElnb5FlbkZNPdoBaocqqM90DUUltYQ/exec?validated=true";
-            
-            // Add a loading event handler
-            iframe.onload = function() {
-                console.log("Wedding details loaded successfully");
-            };
-            
-            // Add an error handler in case the iframe fails to load
-            iframe.onerror = function() {
-                console.error("Failed to load wedding details");
-                const errorMsg = document.createElement("p");
-                errorMsg.style.color = "red";
-                errorMsg.textContent = "Failed to load wedding details. Please refresh the page and try again.";
-                contentContainer.appendChild(errorMsg);
-            };
         }
         
         // Handle Enter key in the passcode input
