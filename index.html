@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Wedding Celebration | Armenak & Gohar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap');
+
+        /* Color Palette - Cooler ivory tones */
+        :root {
+            --background: #f2f0e6;
+            --text: #303030;
+            --accent: #6d7275;
+            --light-accent: #e0ded3;
+            --border: #c9c7bc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Courier Prime', monospace;
+            background-color: var(--background);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        h1 {
+            font-family: 'Special Elite', cursive;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            color: var(--text);
+            margin: 30px 0 10px;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-family: 'Special Elite', cursive;
+            color: var(--text);
+            margin: 25px 0 15px;
+            letter-spacing: 0.5px;
+        }
+
+        h3 {
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            font-family: 'Courier Prime', monospace;
+            font-weight: 700;
+            color: var(--text);
+            margin: 20px 0;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 15px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Clean section styling */
+        .section {
+            background-color: #f8f7f2;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Photo section */
+        .photo-container {
+            margin: 30px 0;
+        }
+
+        .photo-frame {
+            display: inline-block;
+            padding: 10px;
+            background: #f8f7f2;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .photo-container img {
+            max-width: 100%;
+            max-height: 400px;
+            border: 1px solid var(--light-accent);
+        }
+
+        /* Trivia Section */
+        .trivia-section input {
+            width: 100%;
+            max-width: 300px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            text-align: center;
+            font-size: 1rem;
+            font-family: 'Courier Prime', monospace;
+            margin: 20px 0;
+        }
+
+        .trivia-section input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .trivia-section button {
+            background-color: var(--text);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            font-family: 'Courier Prime', monospace;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .trivia-section button:hover {
+            background-color: var(--accent);
+        }
+
+        /* RSVP Section */
+        .rsvp-section form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .rsvp-section input, 
+        .rsvp-section select, 
+        .rsvp-section textarea {
+            width: 100%;
+            max-width: 450px;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            font-size: 1rem;
+            font-family: 'Courier Prime', monospace;
+        }
+
+        .rsvp-section input:focus, 
+        .rsvp-section textarea:focus,
+        .rsvp-section select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .rsvp-section button {
+            width: 100%;
+            max-width: 450px;
+            background-color: var(--text);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 3px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Courier Prime', monospace;
+            margin-top: 10px;
+        }
+
+        .rsvp-section button:hover {
+            background-color: var(--accent);
+        }
+
+        /* Venue Section */
+        .venue-section {
+            text-align: center;
+        }
+        
+        .venue-info {
+            border-top: 1px solid var(--light-accent);
+            border-bottom: 1px solid var(--light-accent);
+            padding: 20px 0;
+            margin: 20px 0;
+            display: inline-block;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .venue-section iframe {
+            width: 100%;
+            height: 350px;
+            border: none;
+            border-radius: 4px;
+            margin-top: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Countdown Timer - Clean and minimal */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .countdown div {
+            background: #f8f7f2;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 15px;
+            min-width: 80px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .countdown div span {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 5px;
+            font-family: 'Special Elite', cursive;
+        }
+
+        .countdown div .label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hidden-content {
+            display: none;
+        }
+        
+        /* Horizontal rule styling */
+        hr {
+            border: 0;
+            height: 1px;
+            background: var(--light-accent);
+            margin: 40px auto;
+            width: 80%;
+        }
+        
+        /* Quote styling */
+        .quote {
+            font-style: italic;
+            color: var(--accent);
+            margin: 20px 0;
+            padding: 10px 20px;
+            border-left: 3px solid var(--accent);
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+        
+        /* Punctuality note styling */
+        .punctuality-note {
+            background-color: #e5e3da;
+            padding: 15px;
+            border-radius: 3px;
+            margin: 20px auto;
+            max-width: 500px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .section {
+                padding: 25px 15px;
+            }
+            
+            .countdown div {
+                min-width: 60px;
+                padding: 10px;
+            }
+            
+            .countdown div span {
+                font-size: 1.5rem;
+            }
+            
+            .photo-frame img {
+                max-width: 100%;
+                height: auto;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+            }
+            
+            .punctuality-note {
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .section {
+                padding: 20px 12px;
+                margin: 20px 0;
+            }
+            
+            .countdown {
+                gap: 10px;
+            }
+            
+            .countdown div {
+                min-width: 55px;
+                padding: 8px;
+            }
+            
+            .countdown div span {
+                font-size: 1.3rem;
+            }
+            
+            .venue-info {
+                padding: 15px 0;
+            }
+            
+            .photo-container {
+                margin: 20px 0;
+            }
+            
+            .photo-frame {
+                padding: 8px;
+            }
+            
+            p {
+                font-size: 1rem;
+            }
+            
+            .rsvp-section input, 
+            .rsvp-section select, 
+            .rsvp-section textarea,
+            .rsvp-section button {
+                max-width: 100%;
+                font-size: 16px; /* Prevents iOS zoom on focus */
+            }
+            
+            .trivia-section input,
+            .trivia-section button {
+                max-width: 100%;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="section">
+            <h1>Armenak & Gohar</h1>
+            <h3>Can't wait to celebrate their special day with you</h3>
+            <h2>April 19, 2025</h2>
+        </div>
+
+        <!-- Photo Section -->
+        <div class="photo-container">
+            <div class="photo-frame">
+                <img src="couple-photo.jpg" alt="Armenak & Gohar">
+            </div>
+        </div>
+
+        <!-- Trivia Section -->
+        <div class="section trivia-section">
+            <h2>Where Did We Take Our First Trip Together?</h2>
+            <p>Enter the passcode to view our wedding details</p>
+            <p class="quote">Why the security, you ask? Well, when you're dealing with people who code for a living, a wedding without password protection just doesn't compute. Consider this our way of making sure you've been debugging our relationship all along.</p>
+            <input type="text" id="passcode" placeholder="Your answer (lowercase)">
+            <button onclick="checkPasscode()">Submit</button>
+            <p id="error-message" style="color: var(--accent);"></p>
+        </div>
+
+        <!-- Hidden Sections -->
+        <div id="hidden-content" class="hidden-content">
+            <!-- RSVP Section - Now first -->
+            <div class="section rsvp-section">
+                <h2>RSVP</h2>
+                <p>We hope you can join us for our special day!</p>
+                <form>
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <select required>
+                        <option value="">Will you attend?</option>
+                        <option value="yes">Yes, I'll be there</option>
+                        <option value="no">Unfortunately, I cannot attend</option>
+                    </select>
+                    <input type="text" placeholder="Plus One's Name (if applicable)">
+                    <textarea placeholder="Any dietary restrictions or allergies?"></textarea>
+                    <button type="submit">Submit RSVP</button>
+                </form>
+                <p style="margin-top: 20px;">
+                    <strong>Please confirm your attendance by March 19, 2025 at the latest.</strong> We need to know if you're coming so we can order enough food and, more importantly, enough cake!
+                </p>
+            </div>
+            
+            <!-- Venue Section -->
+            <div class="section venue-section">
+                <h2>Ceremony & Reception</h2>
+                
+                <div class="venue-info">
+                    <h3>Casa Cordoba Restaurant</h3>
+                    <p>2331 Honolulu Ave, Montrose, CA 91020</p>
+                    <p><strong>April 19, 2025 at 6:00 PM</strong></p>
+                </div>
+                
+                <div class="punctuality-note">
+                    <p><strong>A note on time:</strong> Unlike your average party, this one actually starts when we say it does. 
+                    We promise the ceremony will be worth arriving on time for — we've kept it short enough that 
+                    you won't miss cocktail hour daydreaming about appetizers.</p>
+                </div>
+                
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3306.744104981726!2d-118.29341692432133!3d34.15174667362662!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c6e1b0a4c5a1%3A0x5e9a1b4b8f1b4b8f!2sCasa%20Cordoba%20Restaurant!5e0!3m2!1sen!2sus!4v1698765432109!5m2!1sen!2sus" allowfullscreen></iframe>
+            </div>
+                <h2>RSVP</h2>
+                <form>
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <select required>
+                        <option value="">Will you attend?</option>
+                        <option value="yes">Yes, I'll be there</option>
+                        <option value="no">Unfortunately, I cannot attend</option>
+                    </select>
+                    <input type="text" placeholder="Plus One's Name (if applicable)">
+                    <textarea placeholder="Any dietary restrictions or allergies?"></textarea>
+                    <button type="submit">Submit RSVP</button>
+                </form>
+                <p style="margin-top: 20px;">
+                    Please confirm your attendance by <strong>March 19, 2025</strong>.
+                </p>
+            </div>
+
+            <!-- Countdown Timer - Moved to the end -->
+            <div class="section">
+                <h2>Counting Down to Our Wedding Day</h2>
+                <div class="countdown" id="countdown">
+                    <div>
+                        <span id="days"></span>
+                        <div class="label">days</div>
+                    </div>
+                    <div>
+                        <span id="hours"></span>
+                        <div class="label">hours</div>
+                    </div>
+                    <div>
+                        <span id="minutes"></span>
+                        <div class="label">minutes</div>
+                    </div>
+                    <div>
+                        <span id="seconds"></span>
+                        <div class="label">seconds</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkPasscode() {
+            const passcodeInput = document.getElementById("passcode").value.toLowerCase();
+            const errorMessage = document.getElementById("error-message");
+            const hiddenContent = document.getElementById("hidden-content");
+
+            if (passcodeInput === "denver") {
+                hiddenContent.style.display = "block";
+                errorMessage.textContent = "";
+                // Trigger countdown immediately
+                countdown();
+                // Start interval for countdown
+                setInterval(countdown, 1000);
+            } else {
+                errorMessage.textContent = "Incorrect. Please try again.";
+            }
+        }
+
+        // Countdown Timer
+        function countdown() {
+            const countDate = new Date("April 19, 2025").getTime();
+            const now = new Date().getTime();
+            const gap = countDate - now;
+
+            const second = 1000;
+            const minute = second * 60;
+            const hour = minute * 60;
+            const day = hour * 24;
+
+            const textDay = Math.floor(gap / day);
+            const textHour = Math.floor((gap % day) / hour);
+            const textMinute = Math.floor((gap % hour) / minute);
+            const textSecond = Math.floor((gap % minute) / second);
+
+            document.getElementById("days").innerText = textDay;
+            document.getElementById("hours").innerText = textHour;
+            document.getElementById("minutes").innerText = textMinute;
+            document.getElementById("seconds").innerText = textSecond;
+        }
+    </script>
+</body>
+</html>
