@@ -3,202 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Wedding Celebration | Armenak & Gohar</title>
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
-    <!-- CSS -->
-    <style>
-        :root {
-            --background: #f2f0e6;
-            --text: #303030;
-            --accent: #6d7275;
-            --light-accent: #e0ded3;
-            --border: #c9c7bc;
-        }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: 'Courier Prime', monospace;
-            background-color: var(--background);
-            color: var(--text);
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            line-height: 1.6;
-        }
-        h1 {
-            font-family: 'Special Elite', cursive;
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            color: var(--text);
-            margin: 30px 0 10px;
-            letter-spacing: 1px;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .photo-container {
-            margin: 30px 0;
-        }
-        .photo-frame {
-            display: inline-block;
-            padding: 10px;
-            background: #f8f7f2;
-            border: 1px solid var(--border);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        .photo-container img {
-            max-width: 100%;
-            max-height: 400px;
-            border: 1px solid var(--light-accent);
-        }
-        .section {
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-            background-color: #f8f7f2;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            margin: 30px 0;
-            padding: 20px;
-        }
-        .hidden {
-            display: none;
-        }
-        input, button {
-            padding: 12px;
-            margin: 10px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            font-family: 'Courier Prime', monospace;
-            font-size: 16px;
-        }
-        input {
-            width: 300px;
-            background-color: white;
-        }
-        button {
-            background-color: var(--text);
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #505050;
-        }
-        .quote {
-            font-style: italic;
-            color: var(--accent);
-            margin: 20px auto;
-            padding: 10px 20px;
-            border-left: 3px solid var(--accent);
-            max-width: 80%;
-            text-align: left;
-        }
-        .iframe-container {
-            width: 100%;
-            overflow: hidden;
-            transition: height 0.3s ease;
-        }
-        .iframe-container iframe {
-            width: 100%;
-            min-height: 1200px; /* Set a much larger default size to prevent cutting */
-            border: 0;
-            overflow: hidden;
-        }
-        #error-message {
-            color: #cc3300;
-            margin-top: 10px;
-            min-height: 20px;
-        }
-        /* Loading spinner */
-        .loader {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--text);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 2s linear infinite;
-            margin: 20px auto;
-            display: none;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <!-- Header Section -->
-        <div class="section">
-            <h1>Armenak & Gohar</h1>
-            <h3>Can't wait to celebrate their special day with you</h3>
-            <h2>April 19, 2025</h2>
-        </div>
-        
-        <!-- Photo Section -->
-        <div class="photo-container">
-            <div class="photo-frame">
-                <img src="couple-photo.jpg" alt="Armenak & Gohar" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=Armenak+%26+Gohar';">
-            </div>
-        </div>
-        
-        <!-- Trivia/Validation Section -->
-        <div class="section" id="validation-section">
-            <h2>Where Did We Take Our First Trip Together?</h2>
-            <p>Enter the passcode to view our wedding details</p>
-            <p class="quote">Why the security, you ask? Well, when you're dealing with people who code for a living, a wedding without password protection just doesn't compute. Consider this our way of making sure you've been debugging our relationship all along.</p>
-            <input type="text" id="passcode" placeholder="Your answer (lowercase)">
-            <button onclick="validateAnswer()">Submit</button>
-            <div id="loader" class="loader"></div>
-            <p id="error-message"></p>
-        </div>
-        
-        <!-- Content Frame (Will be populated after validation) -->
-        <div id="content-container" class="hidden">
-            <!-- This will contain the iframe with wedding details -->
-        </div>
-    </div>
-
-    <script>
-        // Function to load wedding details after validation
-        function loadWeddingDetails() {
-            const contentContainer = document.getElementById("content-container");
-            contentContainer.innerHTML = "";
-            
-            // Create a container for the iframe
-            const iframeContainer = document.createElement("div");
-            iframeContainer.className = "iframe-container";
-            
-            // Create an iframe to load the wedding details
-            const iframe = document.createElement("iframe");
-            iframe.id = "wedding-frame";
-            iframe.scrolling = "no"; // Disable scrolling
-            iframe.setAttribute("allowfullscreen", "");
-            
-            // Add the iframe to the container
-            iframeContainer.appendChild(iframe);
-            
-            // Add the container to the content container
-            contentContainer.appendChild(iframeContainer);
-            
-            // For demonstration, use directly embedded HTML
-            // You can replace this with your Google Apps Script URL if the server-side is working
-            iframe.srcdoc = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Wedding Details | Armenak & Gohar</title>
+    <base target="_top">
     <style>
         body {
             font-family: 'Courier Prime', monospace;
@@ -208,7 +14,7 @@
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            overflow: hidden;
+            overflow: hidden; /* Prevent scrolling */
         }
         .container {
             max-width: 900px;
@@ -256,10 +62,11 @@
             font-weight: bold;
             min-height: 20px;
         }
+        /* Fixed map container style */
         .map-container {
             margin-top: 20px;
             width: 100%;
-            height: 300px;
+            height: 300px; /* Fixed height instead of aspect ratio */
             position: relative;
             overflow: hidden;
             border: 1px solid #c9c7bc;
@@ -304,9 +111,18 @@
             <p>2331 Honolulu Ave, Montrose, CA 91020</p>
             <p><strong>April 19, 2025 at 6:00 PM</strong></p>
             
-            <!-- Map container -->
+            <!-- Fixed map implementation -->
             <div class="map-container" id="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3306.744104981726!2d-118.29341692432133!3d34.15174667362662!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c6e1b0a4c5a1%3A0x5e9a1b4b8f1b4b8f!2sCasa%20Cordoba%20Restaurant!5e0!3m2!1sen!2sus!4v1698765432109!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <!-- Direct Google Maps embed with API key removed for security -->
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3306.744104981726!2d-118.29341692432133!3d34.15174667362662!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c6e1b0a4c5a1%3A0x5e9a1b4b8f1b4b8f!2sCasa%20Cordoba%20Restaurant!5e0!3m2!1sen!2sus!4v1698765432109!5m2!1sen!2sus" 
+                    width="600" 
+                    height="450" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
             </div>
         </div>
         
@@ -336,19 +152,46 @@
     </div>
 
     <script>
-        // Function to send height to parent
+        // Disable scrolling
+        document.addEventListener('wheel', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+        
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+        
+        document.addEventListener('keydown', function(e) {
+            // Prevent arrow keys, space, page up/down from scrolling
+            if([32, 33, 34, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                e.preventDefault();
+            }
+        }, false);
+        
+        // Function to calculate and send height to parent
         function sendHeightToParent() {
             const height = document.body.scrollHeight;
+            console.log("Sending height update: " + height);
             window.parent.postMessage({ height: height }, "*");
         }
         
-        // RSVP form submission function (mock for demo)
+        // Listen for height requests from parent
+        window.addEventListener("message", function(event) {
+            if (event.data && event.data.action === "requestHeight") {
+                sendHeightToParent();
+            }
+        });
+        
+        // Submit RSVP function
         function submitRSVP() {
             const name = document.getElementById("name").value;
             const email = document.getElementById("email").value;
             const attendance = document.getElementById("attendance").value;
+            const plusOne = document.getElementById("plusOne").value;
+            const diet = document.getElementById("diet").value;
             const responseMessage = document.getElementById("response-message");
             
+            // Basic validation
             if (!name || !email || !attendance) {
                 responseMessage.textContent = "Please fill out all required fields.";
                 responseMessage.style.color = "red";
@@ -356,32 +199,76 @@
                 return;
             }
             
+            // Show processing message
             responseMessage.textContent = "Processing your RSVP...";
             responseMessage.style.color = "black";
             sendHeightToParent();
             
-            // Simulate successful submission
-            setTimeout(function() {
-                responseMessage.textContent = "Thank you for your RSVP! We look forward to celebrating with you.";
-                responseMessage.style.color = "green";
-                document.getElementById("name").value = "";
-                document.getElementById("email").value = "";
-                document.getElementById("attendance").value = "";
-                document.getElementById("plusOne").value = "";
-                document.getElementById("diet").value = "";
-                sendHeightToParent();
-            }, 1000);
+            // Call the Google Apps Script function
+            google.script.run
+                .withSuccessHandler(function(response) {
+                    responseMessage.textContent = response;
+                    responseMessage.style.color = "green";
+                    // Clear form
+                    document.getElementById("name").value = "";
+                    document.getElementById("email").value = "";
+                    document.getElementById("attendance").value = "";
+                    document.getElementById("plusOne").value = "";
+                    document.getElementById("diet").value = "";
+                    sendHeightToParent();
+                })
+                .withFailureHandler(function(error) {
+                    responseMessage.textContent = "Error submitting form. Please try again later.";
+                    responseMessage.style.color = "red";
+                    console.error(error);
+                    sendHeightToParent();
+                })
+                .submitRSVP({
+                    name: name,
+                    email: email,
+                    attendance: attendance,
+                    plusOne: plusOne,
+                    diet: diet
+                });
         }
         
-        // Send height on page load and periodically
+        // Send height updates on various events
         window.onload = function() {
+            // Wait for map to load
+            const mapIframe = document.querySelector('.map-container iframe');
+            if (mapIframe) {
+                mapIframe.onload = function() {
+                    console.log("Map loaded!");
+                    sendHeightToParent();
+                };
+            }
+            
+            // Delay to ensure all content is rendered
             setTimeout(sendHeightToParent, 100);
             setTimeout(sendHeightToParent, 500);
             setTimeout(sendHeightToParent, 1000);
         };
         
+        // Send height when images load
+        document.querySelectorAll('img').forEach(img => {
+            img.onload = sendHeightToParent;
+        });
+        
         // Periodically send height updates
         setInterval(sendHeightToParent, 2000);
+        
+        // Add MutationObserver to detect DOM changes
+        const observer = new MutationObserver(function(mutations) {
+            sendHeightToParent();
+        });
+        
+        // Start observing the document for DOM changes
+        observer.observe(document.body, { 
+            childList: true, 
+            subtree: true,
+            attributes: true,
+            characterData: true
+        });
     </script>
 </body>
 </html>
