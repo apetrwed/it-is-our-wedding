@@ -10,7 +10,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap');
 
-        /* Color Palette - Cooler ivory tones */
         :root {
             --background: #f2f0e6;
             --text: #303030;
@@ -43,48 +42,12 @@
             letter-spacing: 1px;
         }
 
-        h2 {
-            font-size: clamp(1.5rem, 3vw, 2rem);
-            font-family: 'Special Elite', cursive;
-            color: var(--text);
-            margin: 25px 0 15px;
-            letter-spacing: 0.5px;
-        }
-
-        h3 {
-            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-            font-family: 'Courier Prime', monospace;
-            font-weight: 700;
-            color: var(--text);
-            margin: 20px 0;
-        }
-
-        p {
-            font-size: 1.1rem;
-            color: var(--text);
-            margin-bottom: 15px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
         .container {
             max-width: 900px;
             margin: 0 auto;
             padding: 20px;
         }
 
-        /* Clean section styling */
-        .section {
-            background-color: #f8f7f2;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            padding: 40px;
-            margin: 30px 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-
-        /* Photo section */
         .photo-container {
             margin: 30px 0;
         }
@@ -103,260 +66,21 @@
             border: 1px solid var(--light-accent);
         }
 
-        /* Trivia Section */
-        .trivia-section input {
-            width: 100%;
-            max-width: 300px;
-            padding: 12px;
+        .section {
+            background-color: #f8f7f2;
             border: 1px solid var(--border);
-            border-radius: 3px;
-            text-align: center;
-            font-size: 1rem;
-            font-family: 'Courier Prime', monospace;
-            margin: 20px 0;
-        }
-
-        .trivia-section input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .trivia-section button {
-            background-color: var(--text);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-weight: bold;
-            border: none;
-            font-family: 'Courier Prime', monospace;
-            font-size: 1rem;
-            letter-spacing: 0.5px;
-        }
-
-        .trivia-section button:hover {
-            background-color: var(--accent);
-        }
-
-        /* RSVP Section */
-        .rsvp-section form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .rsvp-section input, 
-        .rsvp-section select, 
-        .rsvp-section textarea {
-            width: 100%;
-            max-width: 450px;
-            padding: 12px;
-            margin: 8px 0;
-            border: 1px solid var(--border);
-            border-radius: 3px;
-            font-size: 1rem;
-            font-family: 'Courier Prime', monospace;
-        }
-
-        .rsvp-section input:focus, 
-        .rsvp-section textarea:focus,
-        .rsvp-section select:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .rsvp-section button {
-            width: 100%;
-            max-width: 450px;
-            background-color: var(--text);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 3px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            font-weight: bold;
-            font-family: 'Courier Prime', monospace;
-            margin-top: 10px;
-        }
-
-        .rsvp-section button:hover {
-            background-color: var(--accent);
-        }
-
-        /* Venue Section */
-        .venue-section {
-            text-align: center;
-        }
-        
-        .venue-info {
-            border-top: 1px solid var(--light-accent);
-            border-bottom: 1px solid var(--light-accent);
-            padding: 20px 0;
-            margin: 20px 0;
-            display: inline-block;
-            width: 100%;
-            max-width: 600px;
-        }
-
-        .venue-section iframe {
-            width: 100%;
-            height: 350px;
-            border: none;
             border-radius: 4px;
-            margin-top: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Countdown Timer - Clean and minimal */
-        .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            padding: 40px;
             margin: 30px 0;
-        }
-
-        .countdown div {
-            background: #f8f7f2;
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 15px;
-            min-width: 80px;
-            text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
-        .countdown div span {
-            display: block;
-            font-size: 2rem;
-            margin-bottom: 5px;
-            font-family: 'Special Elite', cursive;
-        }
-
-        .countdown div .label {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .hidden-content {
-            display: none;
-        }
-        
-        /* Horizontal rule styling */
-        hr {
-            border: 0;
-            height: 1px;
-            background: var(--light-accent);
-            margin: 40px auto;
-            width: 80%;
-        }
-        
-        /* Quote styling */
-        .quote {
-            font-style: italic;
-            color: var(--accent);
-            margin: 20px 0;
-            padding: 10px 20px;
-            border-left: 3px solid var(--accent);
-            max-width: 80%;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: left;
-        }
-        
-        /* Punctuality note styling */
-        .punctuality-note {
-            background-color: #e5e3da;
-            padding: 15px;
-            border-radius: 3px;
-            margin: 20px auto;
-            max-width: 500px;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .section {
-                padding: 25px 15px;
-            }
-            
-            .countdown div {
-                min-width: 60px;
-                padding: 10px;
-            }
-            
-            .countdown div span {
-                font-size: 1.5rem;
-            }
-            
-            .photo-frame img {
-                max-width: 100%;
-                height: auto;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            h2 {
-                font-size: 1.6rem;
-            }
-            
-            .punctuality-note {
-                padding: 12px;
-                font-size: 0.95rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .section {
-                padding: 20px 12px;
-                margin: 20px 0;
-            }
-            
-            .countdown {
-                gap: 10px;
-            }
-            
-            .countdown div {
-                min-width: 55px;
-                padding: 8px;
-            }
-            
-            .countdown div span {
-                font-size: 1.3rem;
-            }
-            
-            .venue-info {
-                padding: 15px 0;
-            }
-            
-            .photo-container {
-                margin: 20px 0;
-            }
-            
-            .photo-frame {
-                padding: 8px;
-            }
-            
-            p {
-                font-size: 1rem;
-            }
-            
-            .rsvp-section input, 
-            .rsvp-section select, 
-            .rsvp-section textarea,
-            .rsvp-section button {
-                max-width: 100%;
-                font-size: 16px; /* Prevents iOS zoom on focus */
-            }
-            
-            .trivia-section input,
-            .trivia-section button {
-                max-width: 100%;
-                font-size: 16px;
-            }
+        #web-app-content {
+            background-color: #f8f7f2;
+            padding: 40px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            min-height: 200px;
         }
     </style>
 </head>
@@ -376,7 +100,24 @@
             </div>
         </div>
 
-          <iframe src="https://script.google.com/macros/s/AKfycbwhQvQ-vIdRD_qZLDYNRCdpowpt-V8FLJ82lxDnRhADAGLGWSN6HHOWjtTnDC04hfY2_g/exec"></iframe>
+        <!-- Google Apps Script Web App Section -->
+        <div id="web-app-content" class="section">
+            <h2>Loading wedding details...</h2>
+        </div>
+    </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("https://script.google.com/macros/s/AKfycbwhQvQ-vIdRD_qZLDYNRCdpowpt-V8FLJ82lxDnRhADAGLGWSN6HHOWjtTnDC04hfY2_g/exec")
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById("web-app-content").innerHTML = html;
+                })
+                .catch(error => {
+                    document.getElementById("web-app-content").innerHTML = "<p>Failed to load wedding details. Please try again later.</p>";
+                    console.error("Error loading web app:", error);
+                });
+        });
+    </script>
 </body>
 </html>
