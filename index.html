@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
-    <!-- CSS for horizontal matching -->
+    <!-- CSS -->
     <style>
         :root {
             --background: #f2f0e6;
@@ -60,7 +60,6 @@
         }
         .section {
             width: 100%;
-            height: 100%;
             position: relative;
             overflow: hidden;
             background-color: #f8f7f2;
@@ -68,46 +67,70 @@
             border-radius: 4px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             margin: 30px 0;
+            padding: 20px;
         }
-        .section iframe {
-            width: 100%; /* Match container width */
-            height: 100%; /* Will be dynamically adjusted */
-            min-height: 300px; /* Minimum height while loading */
+        .hidden {
+            display: none;
+        }
+        input, button {
+            padding: 12px;
+            margin: 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: 'Courier Prime', monospace;
+            font-size: 16px;
+        }
+        input {
+            width: 300px;
+            background-color: white;
+        }
+        button {
+            background-color: var(--text);
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #505050;
+        }
+        .quote {
+            font-style: italic;
+            color: var(--accent);
+            margin: 20px auto;
+            padding: 10px 20px;
+            border-left: 3px solid var(--accent);
+            max-width: 80%;
+            text-align: left;
+        }
+        .iframe-container {
+            width: 100%;
+            overflow: hidden;
+        }
+        .iframe-container iframe {
+            width: 100%;
+            min-height: 300px;
             border: 0;
-            overflow: hidden; /* Prevent scrollbars */
+            overflow: hidden;
         }
-        .iframe-container {
-            overflow: hidden; /* Prevent scrollbars on container */
+        #error-message {
+            color: #cc3300;
+            margin-top: 10px;
+            min-height: 20px;
         }
-        /* Add loader for iframe */
-        .iframe-container {
-            position: relative;
-        }
+        /* Loading spinner */
         .loader {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #303030;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--text);
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             animation: spin 2s linear infinite;
-            z-index: 1;
+            margin: 20px auto;
+            display: none;
         }
         @keyframes spin {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        #wedding-frame {
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            scrolling="no";
-        }
-        #wedding-frame.loaded {
-            opacity: 1;
-            scrolling="no";
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -119,57 +142,113 @@
             <h3>Can't wait to celebrate their special day with you</h3>
             <h2>April 19, 2025</h2>
         </div>
+        
         <!-- Photo Section -->
         <div class="photo-container">
             <div class="photo-frame">
-                <!-- Updated to include a fallback if image fails to load -->
                 <img src="couple-photo.jpg" alt="Armenak & Gohar" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=Armenak+%26+Gohar';">
             </div>
         </div>
-        <!-- iframe with loading indicator -->
-        <div class="section iframe-container">
-            <div id="iframe-loader" class="loader"></div>
-            <iframe id="wedding-frame" 
-                    src="https://script.google.com/macros/s/AKfycbxWFeXUQvRgf4DzdOriR4wrkRJqTOK4UA57otUNjdh687uVfqmkW0a3YzBjpy-W0Csp/exec"
-                    allowfullscreen
-                    onload="this.classList.add('loaded'); document.getElementById('iframe-loader').style.display='none';">
-            </iframe>
+        
+        <!-- Trivia/Validation Section -->
+        <div class="section" id="validation-section">
+            <h2>Where Did We Take Our First Trip Together?</h2>
+            <p>Enter the passcode to view our wedding details</p>
+            <p class="quote">Why the security, you ask? Well, when you're dealing with people who code for a living, a wedding without password protection just doesn't compute. Consider this our way of making sure you've been debugging our relationship all along.</p>
+            <input type="text" id="passcode" placeholder="Your answer (lowercase)">
+            <button onclick="validateAnswer()">Submit</button>
+            <div id="loader" class="loader"></div>
+            <p id="error-message"></p>
+        </div>
+        
+        <!-- Content Frame (Will be populated after validation) -->
+        <div id="content-container" class="hidden">
+            <!-- This will contain the iframe with wedding details -->
         </div>
     </div>
 
-    <!-- Script to handle iframe resize messages -->
     <script>
-        window.addEventListener('message', function(event) {
-            // Check origin for security (optional but recommended)
-            // if (event.origin !== "https://script.google.com") return;
+        // Function to validate the answer
+        function validateAnswer() {
+            const answer = document.getElementById("passcode").value.toLowerCase().trim();
+            const errorMessage = document.getElementById("error-message");
+            const contentContainer = document.getElementById("content-container");
+            const loader = document.getElementById("loader");
             
-            if (event.data && event.data.height) {
-                const iframe = document.getElementById('wedding-frame');
-                // Add a generous buffer (50px) to absolutely prevent scrollbars
-                iframe.style.height = (event.data.height + 50) + 'px';
+            // Show loader
+            loader.style.display = "block";
+            errorMessage.textContent = "";
+            
+            // The answer is "denver" - but let's check it via the Google App
+            if (answer) {
+                // Create URL with the answer
+                const appUrl = `https://script.google.com/macros/s/AKfycbwI3HzI_4vsviQKtPw0rlLNi1AuQyi3p88p-QWQFHd-KXc7Y-amD_pxNU-dGPJpdxRSdg/exec?action=validate&answer=${encodeURIComponent(answer)}`;
                 
-                // Also adjust the container height if needed
-                const container = iframe.closest('.section');
-                if (container) {
-                    container.style.height = 'auto';
+                // Fetch validation from Google App
+                fetch(appUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        loader.style.display = "none";
+                        
+                        if (data.valid) {
+                            // Answer is correct, show content
+                            document.getElementById("validation-section").style.display = "none";
+                            contentContainer.classList.remove("hidden");
+                            
+                            // Load the wedding details into an iframe
+                            loadWeddingDetails();
+                        } else {
+                            // Answer is incorrect
+                            errorMessage.textContent = "Incorrect. Please try again.";
+                        }
+                    })
+                    .catch(error => {
+                        loader.style.display = "none";
+                        errorMessage.textContent = "Error validating answer. Please try again.";
+                        console.error("Validation error:", error);
+                    });
+            } else {
+                loader.style.display = "none";
+                errorMessage.textContent = "Please enter an answer.";
+            }
+        }
+        
+        // Function to load wedding details after validation
+        function loadWeddingDetails() {
+            const contentContainer = document.getElementById("content-container");
+            
+            // Create an iframe to load the wedding details
+            const iframe = document.createElement("iframe");
+            iframe.id = "wedding-frame";
+            iframe.scrolling = "no"; // Disable scrolling
+            iframe.setAttribute("allowfullscreen", "");
+            
+            // Create a container for the iframe
+            const iframeContainer = document.createElement("div");
+            iframeContainer.className = "iframe-container";
+            iframeContainer.appendChild(iframe);
+            
+            // Add the iframe to the content container
+            contentContainer.appendChild(iframeContainer);
+            
+            // Add an event listener to handle iframe resizing
+            window.addEventListener("message", function(event) {
+                if (event.data && event.data.height) {
+                    iframe.style.height = (event.data.height + 70) + "px";
+                    console.log("Iframe height updated to: " + iframe.style.height);
                 }
+            });
+            
+            // Set the iframe source - this will load the wedding details from Google App
+            iframe.src = "https://script.google.com/macros/s/AKfycbwI3HzI_4vsviQKtPw0rlLNi1AuQyi3p88p-QWQFHd-KXc7Y-amD_pxNU-dGPJpdxRSdg/exec?validated=true";
+        }
+        
+        // Handle Enter key in the passcode input
+        document.getElementById("passcode").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                validateAnswer();
             }
         });
-        
-        // Fallback resize check every second in case message event fails
-        setInterval(function() {
-            const iframe = document.getElementById('wedding-frame');
-            if (iframe.contentWindow && iframe.contentWindow.document && iframe.contentWindow.document.body) {
-                try {
-                    // This will only work if iframe is from same origin
-                    const height = iframe.contentWindow.document.body.scrollHeight;
-                    iframe.style.height = (height + 20) + 'px';
-                } catch (e) {
-                    // Cross-origin iframe, can't access content directly
-                    // Relying on message event instead
-                }
-            }
-        }, 1000);
     </script>
 </body>
 </html>
