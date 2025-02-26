@@ -1,4 +1,28 @@
-<!DOCTYPE html>
+// Global callback function for JSONP response
+        function handleValidation(data) {
+            const loader = document.getElementById("loader");
+            const errorMessage = document.getElementById("error-message");
+            const contentContainer = document.getElementById("content-container");
+            
+            loader.style.display = "none";
+            
+            if (data.valid) {
+                // Answer is correct, show content
+                document.getElementById("validation-section").style.display = "none";
+                contentContainer.classList.remove("hidden");
+                
+                // Load the wedding details into an iframe
+                loadWeddingDetails();
+            } else {
+                // Answer is incorrect
+                errorMessage.textContent = "Incorrect. Please try again.";
+            }
+            
+            // Clean up the script tag
+            document.querySelectorAll('script[src*="action=validate"]').forEach(script => {
+                script.remove();
+            });
+        }<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -179,34 +203,27 @@
             loader.style.display = "block";
             errorMessage.textContent = "";
             
-            // The answer is "denver" - but let's check it via the Google App
+            // The answer needs to be validated server-side via the Google App
             if (answer) {
                 // Create URL with the answer
                 const appUrl = `https://script.google.com/macros/s/AKfycbwI3HzI_4vsviQKtPw0rlLNi1AuQyi3p88p-QWQFHd-KXc7Y-amD_pxNU-dGPJpdxRSdg/exec?action=validate&answer=${encodeURIComponent(answer)}`;
                 
-                // Fetch validation from Google App
-                fetch(appUrl)
-                    .then(response => response.json())
-                    .then(data => {
+                // Use JSONP approach to avoid CORS issues
+                const script = document.createElement('script');
+                script.src = `${appUrl}&callback=handleValidation`;
+                document.body.appendChild(script);
+                
+                // Set a timeout in case the script fails to load
+                setTimeout(() => {
+                    if (loader.style.display === "block") {
                         loader.style.display = "none";
-                        
-                        if (data.valid) {
-                            // Answer is correct, show content
-                            document.getElementById("validation-section").style.display = "none";
-                            contentContainer.classList.remove("hidden");
-                            
-                            // Load the wedding details into an iframe
-                            loadWeddingDetails();
-                        } else {
-                            // Answer is incorrect
-                            errorMessage.textContent = "Incorrect. Please try again.";
-                        }
-                    })
-                    .catch(error => {
-                        loader.style.display = "none";
-                        errorMessage.textContent = "Error validating answer. Please try again.";
-                        console.error("Validation error:", error);
-                    });
+                        errorMessage.textContent = "Validation timed out. Please try again.";
+                    }
+                }, 5000);
+            } else {
+                loader.style.display = "none";
+                errorMessage.textContent = "Please enter an answer.";
+            }
             } else {
                 loader.style.display = "none";
                 errorMessage.textContent = "Please enter an answer.";
@@ -240,7 +257,22 @@
             });
             
             // Set the iframe source - this will load the wedding details from Google App
-            iframe.src = "https://script.google.com/macros/s/AKfycbyz3cQTwINE8YZyLffTxw93LdHYUqBgB-YiDiS-APX4jz_9Fv5BN9AD1R-PqvT6_kfGtQ/exec";
+            // Using the existing Script URL - make sure this deployment URL is correct
+            iframe.src = "https://script.google.com/macros/s/AKfycbyxpWT_f2rWNnOEaO3dcUx9aUZeu8NRS1RynG5jElnb5FlbkZNPdoBaocqqM90DUUltYQ/exec?validated=true";
+            
+            // Add a loading event handler
+            iframe.onload = function() {
+                console.log("Wedding details loaded successfully");
+            };
+            
+            // Add an error handler in case the iframe fails to load
+            iframe.onerror = function() {
+                console.error("Failed to load wedding details");
+                const errorMsg = document.createElement("p");
+                errorMsg.style.color = "red";
+                errorMsg.textContent = "Failed to load wedding details. Please refresh the page and try again.";
+                contentContainer.appendChild(errorMsg);
+            };
         }
         
         // Handle Enter key in the passcode input
