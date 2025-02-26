@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- 💡 CSS for the page and iframe responsiveness -->
+    <!-- 💡 CSS for horizontal matching -->
     <style>
         :root {
             --background: #f2f0e6;
@@ -70,9 +70,9 @@
 
         .section {
             width: 100%;
+            height: 100%;
             position: relative;
             overflow: hidden;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
             background-color: #f8f7f2;
             border: 1px solid var(--border);
             border-radius: 4px;
@@ -81,26 +81,21 @@
         }
 
         .section iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100%; /* Match container width */
+            height: 800px; /* Fixed height */
             border: 0;
-            transition: height 0.3s ease-in-out;
         }
 
-        input, button {
-            padding: 10px;
-            margin: 10px;
-            width: 300px;
-            font-family: 'Courier Prime', monospace;
+        @media (max-width: 768px) {
+            .section iframe {
+                height: 600px; /* Adjust height for tablets/mobiles */
+            }
         }
 
-        button {
-            background-color: var(--text);
-            color: white;
-            cursor: pointer;
+        @media (max-width: 480px) {
+            .section iframe {
+                height: 500px; /* Adjust height for smaller devices */
+            }
         }
     </style>
 </head>
@@ -121,60 +116,13 @@
             </div>
         </div>
 
-        <!-- Trivia Section for Validation -->
-        <div class="section" id="trivia-section">
-            <h2>Where Did We Take Our First Trip Together?</h2>
-            <p>Enter the passcode to view our wedding details</p>
-            <input type="text" id="passcode" placeholder="Your answer (lowercase)">
-            <button onclick="validateTrivia()">Submit</button>
-            <p id="error-message" style="color: red;"></p>
-        </div>
-
-        <!-- iframe Embedding with dynamic content -->
-        <div class="section hidden-content" id="web-app-container" style="display:none;">
+        <!--  iframe Matching Width Only -->
+        <div class="section">
             <iframe id="wedding-frame" 
                     src="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"
-                    allowfullscreen
-                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;">
+                    allowfullscreen>
             </iframe>
         </div>
     </div>
-
-    <!-- Server-side trivia validation -->
-    <script>
-        function validateTrivia() {
-            const answer = document.getElementById("passcode").value.toLowerCase();
-            const errorMessage = document.getElementById("error-message");
-            const hiddenContent = document.getElementById("web-app-container");
-
-            fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=validate&answer=" + encodeURIComponent(answer), {
-                method: 'GET',
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.valid) {
-                    hiddenContent.style.display = "block";
-                    window.scrollTo({ top: hiddenContent.offsetTop, behavior: 'smooth' });
-                    resizeIframe(); // Trigger resizing after content shows
-                } else {
-                    errorMessage.textContent = "Incorrect. Please try again.";
-                }
-            })
-            .catch(error => {
-                console.error("Validation error:", error);
-                errorMessage.textContent = "Error validating answer.";
-            });
-        }
-    </script>
-
-    <!-- Dynamic iframe resizing -->
-    <script>
-        window.addEventListener("message", function (event) {
-            if (event.origin.includes("script.google.com") && event.data.height) {
-                const iframe = document.getElementById("wedding-frame");
-                iframe.style.height = event.data.height + "px";
-            }
-        }, false);
-    </script>
 </body>
 </html>
