@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Wedding Celebration | Armenak & Gohar</title>
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap');
 
+    <!-- 💡 CSS for the page and iframe responsiveness -->
+    <style>
         :root {
             --background: #f2f0e6;
             --text: #303030;
@@ -66,26 +68,17 @@
             border: 1px solid var(--light-accent);
         }
 
-        #web-app-content {
-            background-color: #f8f7f2;
-            padding: 40px;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            min-height: 200px;
-        }
-
         .section {
             width: 100%;
             position: relative;
             overflow: hidden;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio, adjust as needed */
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
             background-color: #f8f7f2;
             border: 1px solid var(--border);
             border-radius: 4px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             margin: 30px 0;
         }
-
 
         .section iframe {
             position: absolute;
@@ -94,10 +87,24 @@
             width: 100%;
             height: 100%;
             border: 0;
+            transition: height 0.3s ease-in-out;
         }
 
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            width: 300px;
+            font-family: 'Courier Prime', monospace;
+        }
+
+        button {
+            background-color: var(--text);
+            color: white;
+            cursor: pointer;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <!-- Header Section -->
@@ -114,27 +121,60 @@
             </div>
         </div>
 
-        <!-- Google Apps Script Web App Section (Fixed Single ID) -->
-        <div id="web-app-content" class="section">
-            <h2>Loading wedding details...</h2>
+        <!-- Trivia Section for Validation -->
+        <div class="section" id="trivia-section">
+            <h2>Where Did We Take Our First Trip Together?</h2>
+            <p>Enter the passcode to view our wedding details</p>
+            <input type="text" id="passcode" placeholder="Your answer (lowercase)">
+            <button onclick="validateTrivia()">Submit</button>
+            <p id="error-message" style="color: red;"></p>
+        </div>
+
+        <!-- iframe Embedding with dynamic content -->
+        <div class="section hidden-content" id="web-app-container" style="display:none;">
+            <iframe id="wedding-frame" 
+                    src="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"
+                    allowfullscreen
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;">
+            </iframe>
         </div>
     </div>
 
-    <div class="section" style="position: relative; width: 100%; padding-top: 56.25%;"> <!-- Aspect ratio box -->
-        <iframe id="wedding-frame" 
-                src="https://script.google.com/macros/s/AKfycbwI3HzI_4vsviQKtPw0rlLNi1AuQyi3p88p-QWQFHd-KXc7Y-amD_pxNU-dGPJpdxRSdg/exec"
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
-    </div>
-    
+    <!-- Server-side trivia validation -->
     <script>
-        // Adjust iframe height dynamically based on postMessage from iframe content
+        function validateTrivia() {
+            const answer = document.getElementById("passcode").value.toLowerCase();
+            const errorMessage = document.getElementById("error-message");
+            const hiddenContent = document.getElementById("web-app-container");
+
+            fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=validate&answer=" + encodeURIComponent(answer), {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.valid) {
+                    hiddenContent.style.display = "block";
+                    window.scrollTo({ top: hiddenContent.offsetTop, behavior: 'smooth' });
+                    resizeIframe(); // Trigger resizing after content shows
+                } else {
+                    errorMessage.textContent = "Incorrect. Please try again.";
+                }
+            })
+            .catch(error => {
+                console.error("Validation error:", error);
+                errorMessage.textContent = "Error validating answer.";
+            });
+        }
+    </script>
+
+    <!-- Dynamic iframe resizing -->
+    <script>
         window.addEventListener("message", function (event) {
-            const iframe = document.getElementById("wedding-frame");
             if (event.origin.includes("script.google.com") && event.data.height) {
+                const iframe = document.getElementById("wedding-frame");
                 iframe.style.height = event.data.height + "px";
             }
         }, false);
     </script>
-    
 </body>
 </html>
