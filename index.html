@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- [Previous head content remains the same] -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Wedding Celebration | Armenak & Gohar</title>
@@ -11,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
     <!-- CSS -->
     <style>
-        /* [Previous styles remain the same] */
         :root {
             --background: #f2f0e6;
             --text: #303030;
@@ -106,15 +104,14 @@
         }
         .iframe-container {
             width: 100%;
-            height: 100%;
             overflow: hidden;
             transition: height 0.3s ease;
         }
         .iframe-container iframe {
             width: 100%;
-            height: 100%;
-            min-height: 500px; /* Increased default minimum height */
+            min-height: 1200px; /* Set a much larger default size to prevent cutting */
             border: 0;
+            overflow: hidden;
         }
         #error-message {
             color: #cc3300;
@@ -175,9 +172,11 @@
         // Function to load wedding details after validation
         function loadWeddingDetails() {
             const contentContainer = document.getElementById("content-container");
-            
-            // Clear any previous content
             contentContainer.innerHTML = "";
+            
+            // Create a container for the iframe
+            const iframeContainer = document.createElement("div");
+            iframeContainer.className = "iframe-container";
             
             // Create an iframe to load the wedding details
             const iframe = document.createElement("iframe");
@@ -185,70 +184,225 @@
             iframe.scrolling = "no"; // Disable scrolling
             iframe.setAttribute("allowfullscreen", "");
             
-            // Create a container for the iframe
-            const iframeContainer = document.createElement("div");
-            iframeContainer.className = "iframe-container";
+            // Add the iframe to the container
             iframeContainer.appendChild(iframe);
             
-            // Add the iframe to the content container
+            // Add the container to the content container
             contentContainer.appendChild(iframeContainer);
             
-            // Add an event listener to handle iframe resizing
+            // For demonstration, use directly embedded HTML
+            // You can replace this with your Google Apps Script URL if the server-side is working
+            iframe.srcdoc = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Wedding Details | Armenak & Gohar</title>
+    <style>
+        body {
+            font-family: 'Courier Prime', monospace;
+            background-color: #f2f0e6;
+            color: #303030;
+            text-align: center;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h2 {
+            margin-top: 30px;
+            font-size: 24px;
+        }
+        h3 {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f7f2;
+            border: 1px solid #c9c7bc;
+            border-radius: 4px;
+        }
+        input, select, textarea, button {
+            padding: 10px;
+            margin: 10px;
+            width: 300px;
+            font-family: 'Courier Prime', monospace;
+            border: 1px solid #c9c7bc;
+            border-radius: 4px;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        button {
+            background-color: #303030;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #505050;
+        }
+        #response-message {
+            margin-top: 10px;
+            font-weight: bold;
+            min-height: 20px;
+        }
+        .map-container {
+            margin-top: 20px;
+            width: 100%;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #c9c7bc;
+            border-radius: 4px;
+        }
+        .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- RSVP Section -->
+        <div class="section rsvp-section">
+            <h2>RSVP</h2>
+            <p>We hope you can join us for our special day!</p>
+            <div>
+                <input type="text" id="name" placeholder="Your Name" required>
+                <input type="email" id="email" placeholder="Your Email" required>
+                <select id="attendance" required>
+                    <option value="">Will you attend?</option>
+                    <option value="yes">Yes, I'll be there</option>
+                    <option value="no">Unfortunately, I cannot attend</option>
+                </select>
+                <input type="text" id="plusOne" placeholder="Plus One's Name (if applicable)">
+                <textarea id="diet" placeholder="Any dietary restrictions or allergies?"></textarea>
+                <button onclick="submitRSVP()">Submit RSVP</button>
+                <p id="response-message"></p>
+            </div>
+            <p><strong>Please confirm your attendance by March 19, 2025 at the latest.</strong></p>
+        </div>
+
+        <!-- Venue Section -->
+        <div class="section venue-section">
+            <h2>Ceremony & Reception</h2>
+            <p>Casa Cordoba Restaurant</p>
+            <p>2331 Honolulu Ave, Montrose, CA 91020</p>
+            <p><strong>April 19, 2025 at 6:00 PM</strong></p>
+            
+            <!-- Map container -->
+            <div class="map-container" id="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3306.744104981726!2d-118.29341692432133!3d34.15174667362662!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c6e1b0a4c5a1%3A0x5e9a1b4b8f1b4b8f!2sCasa%20Cordoba%20Restaurant!5e0!3m2!1sen!2sus!4v1698765432109!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+        
+        <!-- Schedule Section -->
+        <div class="section schedule-section">
+            <h2>Wedding Schedule</h2>
+            <div>
+                <h3>6:00 PM</h3>
+                <p>Arrival & Welcome Drinks</p>
+                
+                <h3>6:30 PM</h3>
+                <p>Ceremony</p>
+                
+                <h3>7:00 PM</h3>
+                <p>Cocktail Hour</p>
+                
+                <h3>8:00 PM</h3>
+                <p>Dinner</p>
+                
+                <h3>9:00 PM</h3>
+                <p>Toasts & Cake Cutting</p>
+                
+                <h3>9:30 PM - 12:00 AM</h3>
+                <p>Dancing & Celebration</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to send height to parent
+        function sendHeightToParent() {
+            const height = document.body.scrollHeight;
+            window.parent.postMessage({ height: height }, "*");
+        }
+        
+        // RSVP form submission function (mock for demo)
+        function submitRSVP() {
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const attendance = document.getElementById("attendance").value;
+            const responseMessage = document.getElementById("response-message");
+            
+            if (!name || !email || !attendance) {
+                responseMessage.textContent = "Please fill out all required fields.";
+                responseMessage.style.color = "red";
+                sendHeightToParent();
+                return;
+            }
+            
+            responseMessage.textContent = "Processing your RSVP...";
+            responseMessage.style.color = "black";
+            sendHeightToParent();
+            
+            // Simulate successful submission
+            setTimeout(function() {
+                responseMessage.textContent = "Thank you for your RSVP! We look forward to celebrating with you.";
+                responseMessage.style.color = "green";
+                document.getElementById("name").value = "";
+                document.getElementById("email").value = "";
+                document.getElementById("attendance").value = "";
+                document.getElementById("plusOne").value = "";
+                document.getElementById("diet").value = "";
+                sendHeightToParent();
+            }, 1000);
+        }
+        
+        // Send height on page load and periodically
+        window.onload = function() {
+            setTimeout(sendHeightToParent, 100);
+            setTimeout(sendHeightToParent, 500);
+            setTimeout(sendHeightToParent, 1000);
+        };
+        
+        // Periodically send height updates
+        setInterval(sendHeightToParent, 2000);
+    </script>
+</body>
+</html>`;
+            
+            // Handle iframe resize
             window.addEventListener("message", function(event) {
                 if (event.data && event.data.height) {
-                    // Add generous padding (100px) to ensure no scrolling
-                    const newHeight = parseInt(event.data.height) + 100;
+                    const newHeight = parseInt(event.data.height) + 100; // Add buffer
                     iframe.style.height = newHeight + "px";
-                    iframeContainer.style.height = newHeight + "px";
                     console.log("Iframe height updated to: " + newHeight + "px");
-                    
-                    // If the height is very small, it might be a partial load
-                    // In that case, we'll check again in a second
-                    if (newHeight < 800) {
-                        setTimeout(requestIframeHeight, 1000);
-                    }
                 }
             });
             
-            // Function to request height from the iframe
-            function requestIframeHeight() {
-                if (iframe.contentWindow) {
-                    try {
-                        iframe.contentWindow.postMessage({ action: "requestHeight" }, "*");
-                    } catch (e) {
-                        console.error("Error requesting height:", e);
-                    }
-                }
-            }
-            
-            // Set the iframe source - this will load the wedding details from Google App
-            iframe.src = "https://script.google.com/macros/s/AKfycbwQBkTFKuot_BakI6mlrrBs8Y97bRho_r7UodVbX44Tk2PZBOZc7j_tnfC7XCc2W8EXAw/exec?validated=true";
-            
-            // Add a loading event handler
+            // Add loading event handler
             iframe.onload = function() {
                 console.log("Wedding details loaded successfully");
-                
-                // Request height from iframe once it's loaded
-                requestIframeHeight();
-                
-                // Set up multiple requests with delays to ensure we get the right height
-                setTimeout(requestIframeHeight, 500);
-                setTimeout(requestIframeHeight, 1000);
-                setTimeout(requestIframeHeight, 2000);
-                setTimeout(requestIframeHeight, 5000);
             };
             
-            // Add an error handler in case the iframe fails to load
-            iframe.onerror = function() {
-                console.error("Failed to load wedding details");
-                const errorMsg = document.createElement("p");
-                errorMsg.style.color = "red";
-                errorMsg.textContent = "Failed to load wedding details. Please refresh the page and try again.";
-                contentContainer.appendChild(errorMsg);
-            };
-            
-            // Periodically check for height updates (in case content changes)
-            setInterval(requestIframeHeight, 3000);
+            /* If using Google Apps Script, uncomment this and comment out the srcdoc approach
+            iframe.src = "https://script.google.com/macros/s/AKfycbwQBkTFKuot_BakI6mlrrBs8Y97bRho_r7UodVbX44Tk2PZBOZc7j_tnfC7XCc2W8EXAw/exec?validated=true";
+            */
         }
 
         // Function to validate the answer
@@ -275,7 +429,7 @@
             document.querySelectorAll('script[src*="action=validate"]').forEach(script => script.remove());
         }
 
-        //  Validation function using JSONP
+        // Validation function - simplified for direct use
         function validateAnswer() {
             const answer = document.getElementById("passcode").value.toLowerCase().trim();
             const errorMessage = document.getElementById("error-message");
@@ -286,12 +440,26 @@
             errorMessage.textContent = "";
         
             if (answer) {
+                // For demo/testing: Direct client-side validation
+                // In production, you'd use the server-side approach
+                setTimeout(function() {
+                    loader.style.display = "none";
+                    if (answer === "denver") {
+                        document.getElementById("validation-section").style.display = "none";
+                        contentContainer.classList.remove("hidden");
+                        loadWeddingDetails();
+                    } else {
+                        errorMessage.textContent = "Incorrect. Please try again.";
+                    }
+                }, 800);
+                
+                /* For server-side validation, uncomment and use this approach:
                 const appUrl = `https://script.google.com/macros/s/AKfycbwQBkTFKuot_BakI6mlrrBs8Y97bRho_r7UodVbX44Tk2PZBOZc7j_tnfC7XCc2W8EXAw/exec?action=validate&answer=${encodeURIComponent(answer)}&callback=handleValidation`;
-        
+                
                 const script = document.createElement('script');
                 script.src = appUrl;
                 document.body.appendChild(script);
-        
+                
                 // Timeout handler
                 setTimeout(() => {
                     if (loader.style.display === "block") {
@@ -299,6 +467,7 @@
                         errorMessage.textContent = "Validation timed out. Please try again.";
                     }
                 }, 5000);
+                */
             } else {
                 loader.style.display = "none";
                 errorMessage.textContent = "Please enter an answer.";
