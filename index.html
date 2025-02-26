@@ -74,6 +74,10 @@
             height: 100%; /* Will be dynamically adjusted */
             min-height: 300px; /* Minimum height while loading */
             border: 0;
+            overflow: hidden; /* Prevent scrollbars */
+        }
+        .iframe-container {
+            overflow: hidden; /* Prevent scrollbars on container */
         }
         /* Add loader for iframe */
         .iframe-container {
@@ -124,7 +128,7 @@
         <div class="section iframe-container">
             <div id="iframe-loader" class="loader"></div>
             <iframe id="wedding-frame" 
-                    src="https://script.google.com/macros/s/AKfycbwkxlFPLLs0tof2wjqC0qZt0D8tIZ8EIFGyGxzW1NS74LskL0rG9zCX8BUvFWcYTWhhEw/exec"
+                    src="https://script.google.com/macros/s/AKfycbwI3HzI_4vsviQKtPw0rlLNi1AuQyi3p88p-QWQFHd-KXc7Y-amD_pxNU-dGPJpdxRSdg/exec"
                     allowfullscreen
                     onload="this.classList.add('loaded'); document.getElementById('iframe-loader').style.display='none';">
             </iframe>
@@ -139,8 +143,8 @@
             
             if (event.data && event.data.height) {
                 const iframe = document.getElementById('wedding-frame');
-                // Add a small buffer (20px) to prevent scrollbars
-                iframe.style.height = (event.data.height + 20) + 'px';
+                // Add a generous buffer (50px) to absolutely prevent scrollbars
+                iframe.style.height = (event.data.height + 50) + 'px';
                 
                 // Also adjust the container height if needed
                 const container = iframe.closest('.section');
