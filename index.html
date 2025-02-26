@@ -105,12 +105,14 @@
         .iframe-container {
             width: 100%;
             overflow: hidden;
+            height: 100%;
         }
         .iframe-container iframe {
             width: 100%;
             min-height: 300px;
             border: 0;
             overflow: hidden;
+            height: 100%;
         }
         #error-message {
             color: #cc3300;
@@ -259,7 +261,7 @@
                         loader.style.display = "none";
                         errorMessage.textContent = "Validation timed out. Please try again.";
                     }
-                }, 5000);
+                }, 10000);
             } else {
                 loader.style.display = "none";
                 errorMessage.textContent = "Please enter an answer.";
