@@ -71,18 +71,9 @@
         }
         .section iframe {
             width: 100%; /* Match container width */
-            height: 100%; /* Fixed height */
+            height: 100%; /* Will be dynamically adjusted */
+            min-height: 300px; /* Minimum height while loading */
             border: 0;
-        }
-        @media (max-width: 768px) {
-            .section iframe {
-                height: 600px; /* Adjust height for tablets/mobiles */
-            }
-        }
-        @media (max-width: 480px) {
-            .section iframe {
-                height: 500px; /* Adjust height for smaller devices */
-            }
         }
         /* Add loader for iframe */
         .iframe-container {
@@ -133,14 +124,14 @@
         <div class="section iframe-container">
             <div id="iframe-loader" class="loader"></div>
             <iframe id="wedding-frame" 
-                    src="https://script.google.com/macros/s/AKfycbyZ7s64Fy2kQWtU01dlwprqJmye1fyzvsYMH6fi9NZkN4oMXL6k0WMHRCf7Rv4tD_7m0g/exec"
+                    src="https://script.google.com/macros/s/AKfycbwkxlFPLLs0tof2wjqC0qZt0D8tIZ8EIFGyGxzW1NS74LskL0rG9zCX8BUvFWcYTWhhEw/exec"
                     allowfullscreen
                     onload="this.classList.add('loaded'); document.getElementById('iframe-loader').style.display='none';">
             </iframe>
         </div>
     </div>
 
-    <!-- Add script to handle iframe resize messages -->
+    <!-- Script to handle iframe resize messages -->
     <script>
         window.addEventListener('message', function(event) {
             // Check origin for security (optional but recommended)
@@ -148,9 +139,31 @@
             
             if (event.data && event.data.height) {
                 const iframe = document.getElementById('wedding-frame');
-                iframe.style.height = event.data.height + 'px';
+                // Add a small buffer (20px) to prevent scrollbars
+                iframe.style.height = (event.data.height + 20) + 'px';
+                
+                // Also adjust the container height if needed
+                const container = iframe.closest('.section');
+                if (container) {
+                    container.style.height = 'auto';
+                }
             }
         });
+        
+        // Fallback resize check every second in case message event fails
+        setInterval(function() {
+            const iframe = document.getElementById('wedding-frame');
+            if (iframe.contentWindow && iframe.contentWindow.document && iframe.contentWindow.document.body) {
+                try {
+                    // This will only work if iframe is from same origin
+                    const height = iframe.contentWindow.document.body.scrollHeight;
+                    iframe.style.height = (height + 20) + 'px';
+                } catch (e) {
+                    // Cross-origin iframe, can't access content directly
+                    // Relying on message event instead
+                }
+            }
+        }, 1000);
     </script>
 </body>
 </html>
