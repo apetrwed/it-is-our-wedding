@@ -106,24 +106,21 @@
         </div>
     </div>
 
+    <div class="section" style="position: relative; width: 100%; padding-top: 56.25%;"> <!-- Aspect ratio box -->
+        <iframe id="wedding-frame" 
+                src="https://script.google.com/macros/s/AKfycbwI3HzI_4vsviQKtPw0rlLNi1AuQyi3p88p-QWQFHd-KXc7Y-amD_pxNU-dGPJpdxRSdg/exec"
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+    </div>
+    
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("https://script.google.com/macros/s/AKfycbwI3HzI_4vsviQKtPw0rlLNi1AuQyi3p88p-QWQFHd-KXc7Y-amD_pxNU-dGPJpdxRSdg/exec", {
-                method: 'GET',
-                mode: 'cors',
-            })
-            .then(response => {
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                return response.text();
-            })
-            .then(html => {
-                document.getElementById("web-app-content").innerHTML = html;
-            })
-            .catch(error => {
-                document.getElementById("web-app-content").innerHTML = `<p>Failed to load wedding details: ${error.message}</p>`;
-                console.error("Error loading web app:", error);
-            });
-        });
+        // Adjust iframe height dynamically based on postMessage from iframe content
+        window.addEventListener("message", function (event) {
+            const iframe = document.getElementById("wedding-frame");
+            if (event.origin.includes("script.google.com") && event.data.height) {
+                iframe.style.height = event.data.height + "px";
+            }
+        }, false);
     </script>
+    
 </body>
 </html>
