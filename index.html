@@ -1,28 +1,4 @@
-// Global callback function for JSONP response
-        function handleValidation(data) {
-            const loader = document.getElementById("loader");
-            const errorMessage = document.getElementById("error-message");
-            const contentContainer = document.getElementById("content-container");
-            
-            loader.style.display = "none";
-            
-            if (data.valid) {
-                // Answer is correct, show content
-                document.getElementById("validation-section").style.display = "none";
-                contentContainer.classList.remove("hidden");
-                
-                // Load the wedding details into an iframe
-                loadWeddingDetails();
-            } else {
-                // Answer is incorrect
-                errorMessage.textContent = "Incorrect. Please try again.";
-            }
-            
-            // Clean up the script tag
-            document.querySelectorAll('script[src*="action=validate"]').forEach(script => {
-                script.remove();
-            });
-        }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
